@@ -1,37 +1,30 @@
 import { usuarios } from './datos.js';
 
-function mostrarMensaje(texto, tipo) {
-  const div = document.getElementById('mensajeLogin');
-  div.className = `alert mt-3 alert-${tipo}`;
-  div.textContent = texto;
-  div.classList.remove('d-none');
-}
-
-function procesarLogin(evento) {
-  evento.preventDefault();
-
-  const email    = document.getElementById('inputEmail').value.trim();
-  const password = document.getElementById('inputPassword').value.trim();
-
-  if (!email || !password) {
-    mostrarMensaje('Por favor, rellena todos los campos.', 'danger');
-    return;
+document.addEventListener('DOMContentLoaded', () => {
+  const emailSesion = sessionStorage.getItem('usuarioLogueado');
+  if (emailSesion) {
+    document.getElementById('usuarioLogueado').textContent = emailSesion;
+    document.getElementById('btnCerrarSesion').classList.remove('d-none');
+    document.getElementById('btnCerrarSesion').onclick = () => { 
+      sessionStorage.removeItem('usuarioLogueado'); 
+      window.location.reload(); 
+    };
   }
 
-  const usuario = usuarios.find(u => u.email === email && u.password === password);
+  document.getElementById('formLogin').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('inputEmail').value;
+    const pass = document.getElementById('inputPassword').value;
+    const user = usuarios.find(u => u.email === email && u.password === pass);
 
-  if (usuario) {
-    sessionStorage.setItem('usuarioLogueado', usuario.email);
-    document.getElementById('usuarioLogueado').textContent = usuario.email;
-    mostrarMensaje(`¡Bienvenido/a, ${usuario.nombre}!`, 'success');
-  } else {
-    mostrarMensaje('Credenciales incorrectas. Revisa tu email y contraseña.', 'danger');
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-  const email = sessionStorage.getItem('usuarioLogueado');
-  if (email) document.getElementById('usuarioLogueado').textContent = email;
-
-  document.getElementById('formLogin').addEventListener('submit', procesarLogin);
+    const msg = document.getElementById('mensajeLogin');
+    if (user) {
+      sessionStorage.setItem('usuarioLogueado', user.email);
+      window.location.href = 'index.html';
+    } else {
+      msg.textContent = "Error: Usuario o contraseña incorrectos.";
+      msg.className = "alert alert-danger mt-3";
+      msg.classList.remove('d-none');
+    }
+  });
 });

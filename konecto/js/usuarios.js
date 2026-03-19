@@ -1,5 +1,23 @@
 import { usuarios } from './datos.js';
 
+// --- 1. LÓGICA DE SESIÓN (NAVBAR) ---
+function gestionarNavbarSesion() {
+  const emailLogueado = sessionStorage.getItem('usuarioLogueado');
+  const txtUsuario = document.getElementById('usuarioLogueado');
+  const btnSalir = document.getElementById('btnCerrarSesion');
+
+  if (emailLogueado) {
+    txtUsuario.textContent = emailLogueado;
+    btnSalir.classList.remove('d-none');
+    btnSalir.onclick = (e) => {
+      e.preventDefault();
+      sessionStorage.removeItem('usuarioLogueado');
+      window.location.reload(); // Recargamos para actualizar vista
+    };
+  }
+}
+
+// --- 2. UTILIDADES DE MENSAJES ---
 function mostrarMensaje(texto, tipo) {
   const div = document.getElementById('mensajeUsuarios');
   div.className = `alert mt-3 alert-${tipo}`;
@@ -8,22 +26,8 @@ function mostrarMensaje(texto, tipo) {
   setTimeout(() => div.classList.add('d-none'), 3000);
 }
 
-function crearFilaHTML(usuario, indice) {
-  const passwordMask = usuario.password.slice(0, 2) + '•'.repeat(usuario.password.length - 2);
-
-  return `
-    <tr>
-      <td>${usuario.nombre}</td>
-      <td>${usuario.email}</td>
-      <td>${passwordMask}</td>
-      <td>
-        <button class="btn-eliminar" data-indice="${indice}">Eliminar</button>
-      </td>
-    </tr>
-  `;
-}
-
-function renderTabla() {
+// --- 3. RENDERIZADO DE LA TABLA ---
+function renderTablaUsuarios() {
   const contenedor = document.getElementById('tablaUsuarios');
 
   if (usuarios.length === 0) {
@@ -31,86 +35,108 @@ function renderTabla() {
       <div class="tabla-empleos-wrapper">
         <div class="tabla-empleos-header">LISTADO USUARIOS</div>
         <div class="tabla-empleos-body">
-          <p class="tabla-vacia">No hay usuarios registrados.</p>
+          <p class="tabla-vacia">No hay usuarios registrados en el sistema.</p>
         </div>
-      </div>
-    `;
+      </div>`;
     return;
   }
 
-  const filas = usuarios.map((u, i) => crearFilaHTML(u, i)).join('');
+  const filas = usuarios.map((u, i) => {
+    // Convertimos la contraseña en puntos (mask) para que sea profesional
+    const passMask = "•".repeat(u.password.length);
+    
+    return `
+      <tr>
+        <td>${u.nombre}</td>
+        <td>${u.email}</td>
+        <td><code>${passMask}</code></td>
+        <td>
+          <button class="btn-eliminar" data-indice="${i}">Eliminar</button>
+        </td>
+      </tr>`;
+  }).join('');
 
   contenedor.innerHTML = `
     <div class="tabla-empleos-wrapper">
       <div class="tabla-empleos-header">LISTADO USUARIOS</div>
       <div class="tabla-empleos-body">
-        <table class="table table-bordered">
+        <table class="table table-bordered align-middle">
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Correo</th>
-              <th>Contraseña</th>
+              <th>Password</th>
               <th>Acción</th>
             </tr>
           </thead>
           <tbody>${filas}</tbody>
         </table>
       </div>
-    </div>
-  `;
+    </div>`;
 }
+
+// --- 4. ACCIONES: ALTA Y BAJA ---
 
 function darDeAlta(evento) {
   evento.preventDefault();
 
-  const nombre   = document.getElementById('inputNombre').value.trim();
-  const email    = document.getElementById('inputEmail').value.trim();
+  const nombre = document.getElementById('inputNombre').value.trim();
+  const email = document.getElementById('inputEmail').value.trim();
   const password = document.getElementById('inputPassword').value;
 
+  // Validaciones básicas
   if (!nombre || !email || !password) {
-    mostrarMensaje('Por favor, rellena todos los campos.', 'danger');
+    mostrarMensaje("Todos los campos son obligatorios.", "danger");
     return;
   }
 
-  if (!email.includes('@') || email.indexOf('@') === 0 || email.indexOf('@') === email.length - 1) {
-    mostrarMensaje('El email debe tener un formato válido (contener @).', 'danger');
+  // Validación de email duplicado
+  const existe = usuarios.find(u => u.email === email);
+  if (existe) {
+    mostrarMensaje("Este email ya está registrado.", "danger");
     return;
   }
 
-  if (password.length < 6) {
-    mostrarMensaje('La contraseña debe tener al menos 6 caracteres.', 'danger');
-    return;
-  }
-
-  if (usuarios.some(u => u.email === email)) {
-    mostrarMensaje('Ya existe un usuario con ese correo electrónico.', 'danger');
-    return;
-  }
-
+  // Añadimos al array de datos.js
   usuarios.push({ nombre, email, password });
-  renderTabla();
+
+  // Actualizamos vista
+  renderTablaUsuarios();
   document.getElementById('formUsuarios').reset();
-  mostrarMensaje(`Usuario "${nombre}" dado de alta correctamente.`, 'success');
+  mostrarMensaje(`Usuario ${nombre} creado con éxito.`, "success");
 }
 
 function darDeBaja(indice) {
   const usuario = usuarios[indice];
-  if (!confirm(`¿Seguro que quieres eliminar a "${usuario.nombre}"?`)) return;
-  usuarios.splice(indice, 1);
-  renderTabla();
-  mostrarMensaje(`Usuario "${usuario.nombre}" eliminado correctamente.`, 'success');
+  
+  // No permitimos que el usuario se borre a sí mismo si está logueado
+  const logueado = sessionStorage.getItem('usuarioLogueado');
+  if (usuario.email === logueado) {
+    alert("No puedes eliminar tu propio usuario mientras tienes la sesión iniciada.");
+    return;
+  }
+
+  if (confirm(`¿Estás seguro de eliminar a ${usuario.nombre}?`)) {
+    usuarios.splice(indice, 1);
+    renderTablaUsuarios();
+    mostrarMensaje("Usuario eliminado correctamente.", "success");
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const email = sessionStorage.getItem('usuarioLogueado');
-  if (email) document.getElementById('usuarioLogueado').textContent = email;
+// --- 5. INICIALIZACIÓN ---
+document.addEventListener('DOMContentLoaded', () => {
+  gestionarNavbarSesion();
+  renderTablaUsuarios();
 
-  renderTabla();
-
+  // Evento del formulario
   document.getElementById('formUsuarios').addEventListener('submit', darDeAlta);
 
-  document.getElementById('tablaUsuarios').addEventListener('click', function (evento) {
-    const boton = evento.target.closest('.btn-eliminar');
-    if (boton) darDeBaja(Number(boton.dataset.indice));
+  // Delegación de eventos para el botón eliminar
+  document.getElementById('tablaUsuarios').addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-eliminar');
+    if (btn) {
+      const idx = btn.dataset.indice;
+      darDeBaja(Number(idx));
+    }
   });
 });

@@ -1,41 +1,45 @@
-import { empleos } from './datos.js';
+import { empleos, usuarios } from './datos.js';
 
-function crearTarjetaHTML(empleo) {
-  const clase = empleo.tipo === 'oferta' ? 'tarjeta-oferta' : 'tarjeta-demanda';
-  const sueldoHTML = empleo.tipo === 'oferta'
-    ? `<span class="badge-tarjeta">${empleo.sueldo.toLocaleString('es-ES')} €/año</span>`
-    : '';
+function actualizarInterfazUsuario() {
+  const emailLogueado = sessionStorage.getItem('usuarioLogueado');
+  const txtNavbar = document.getElementById('usuarioLogueado');
+  const btnSalir = document.getElementById('btnCerrarSesion');
+  const avatar = document.getElementById('avatarUsuario');
+  const nombreHero = document.getElementById('nombreUsuarioHero');
 
-  return `
-    <div class="card ${clase}">
-      <div class="card-body">
-        <h5 class="card-title">${empleo.titulo}</h5>
-        <p class="card-text">${empleo.descripcion}</p>
-        <div>
-          <span class="badge-tarjeta">${empleo.jornada}</span>
-          ${sueldoHTML}
-        </div>
-      </div>
-    </div>
-  `;
+  if (emailLogueado) {
+    const usuario = usuarios.find(u => u.email === emailLogueado);
+    txtNavbar.textContent = emailLogueado;
+    btnSalir.classList.remove('d-none');
+    btnSalir.onclick = () => { sessionStorage.removeItem('usuarioLogueado'); window.location.reload(); };
+
+    if (usuario) {
+      avatar.textContent = usuario.nombre.charAt(0).toUpperCase();
+      nombreHero.textContent = `¡Bienvenido, ${usuario.nombre}!`;
+      nombreHero.classList.remove('text-muted'); 
+      nombreHero.style.color = "#ffffff"; 
+      nombreHero.style.fontWeight = "700"; 
+      nombreHero.style.fontSize = "1rem"; 
+    }
+  }
 }
 
 function renderTarjetas() {
-  const ofertas  = empleos.filter(e => e.tipo === 'oferta');
-  const demandas = empleos.filter(e => e.tipo === 'demanda');
+  const crearCard = (e) => `
+    <div class="card ${e.tipo === 'oferta' ? 'tarjeta-oferta' : 'tarjeta-demanda'} mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">${e.titulo}</h5>
+        <p class="card-text">${e.descripcion}</p>
+        <span class="badge-tarjeta">${e.jornada}</span>
+        ${e.tipo === 'oferta' ? `<span class="badge-tarjeta">${e.sueldo.toLocaleString()} €/año</span>` : ''}
+      </div>
+    </div>`;
 
-  document.getElementById('contenedorOfertas').innerHTML = ofertas.length
-    ? ofertas.map(crearTarjetaHTML).join('')
-    : '<p class="text-center p-3 mb-0">No hay ofertas registradas.</p>';
-
-  document.getElementById('contenedorDemandas').innerHTML = demandas.length
-    ? demandas.map(crearTarjetaHTML).join('')
-    : '<p class="text-center p-3 mb-0">No hay demandas registradas.</p>';
+  document.getElementById('contenedorOfertas').innerHTML = empleos.filter(e => e.tipo === 'oferta').map(crearCard).join('') || 'Sin ofertas.';
+  document.getElementById('contenedorDemandas').innerHTML = empleos.filter(e => e.tipo === 'demanda').map(crearCard).join('') || 'Sin demandas.';
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const email = sessionStorage.getItem('usuarioLogueado');
-  if (email) document.getElementById('usuarioLogueado').textContent = email;
-
+document.addEventListener('DOMContentLoaded', () => {
+  actualizarInterfazUsuario();
   renderTarjetas();
 });

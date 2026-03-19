@@ -15,32 +15,25 @@
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="index.html">KONECTO</a>
-      <button class="navbar-toggler" type="button"
-              data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="empleos.html">Ofertas y Demandas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="usuarios.html">Altas Usuarios</a>
-          </li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="empleos.html">Ofertas y Demandas</a></li>
+          <li class="nav-item"><a class="nav-link" href="usuarios.html">Altas Usuarios</a></li>
         </ul>
-        <span class="navbar-text" id="usuarioLogueado">No conectado</span>
+        <span class="navbar-text">
+          <span id="usuarioLogueado">No conectado</span>
+          <a href="#" id="btnCerrarSesion" class="ms-2 text-warning fw-bold text-decoration-none d-none">(Salir)</a>
+        </span>
       </div>
     </div>
   </nav>
 
   <main class="container mt-4">
-
     <section class="hero-section row align-items-center mb-4 p-3">
       <div class="col-md-2 text-center">
         <div class="logo-placeholder">KN</div>
@@ -69,7 +62,6 @@
         </div>
       </div>
     </div>
-
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

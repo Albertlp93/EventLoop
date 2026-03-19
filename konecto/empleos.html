@@ -15,44 +15,42 @@
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="index.html">KONECTO</a>
-      <button class="navbar-toggler" type="button"
-              data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="empleos.html">Ofertas y Demandas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="usuarios.html">Altas Usuarios</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link active" href="empleos.html">Ofertas y Demandas</a></li>
+          <li class="nav-item"><a class="nav-link" href="usuarios.html">Altas Usuarios</a></li>
         </ul>
-        <span class="navbar-text" id="usuarioLogueado">No conectado</span>
+        <span class="navbar-text">
+          <span id="usuarioLogueado">No conectado</span>
+          <a href="#" id="btnCerrarSesion" class="ms-2 text-warning fw-bold text-decoration-none d-none">(Salir)</a>
+        </span>
       </div>
     </div>
   </nav>
 
   <main class="container mt-4">
     <div class="row g-4">
-
       <div class="col-md-4">
         <div class="form-empleos">
-          <div class="form-empleos-header">
-            <h2>NUEVO EMPLEO</h2>
-          </div>
+          <div class="form-empleos-header"><h2>NUEVO EMPLEO</h2></div>
           <div class="form-empleos-body">
             <form id="formEmpleos" novalidate>
               <div class="mb-3">
+                <label for="inputTipo" class="form-label">Tipo de publicación</label>
+                <select class="form-select" id="inputTipo" required>
+                  <option value="">-- Selecciona --</option>
+                  <option value="oferta">Oferta (Busco trabajador)</option>
+                  <option value="demanda">Demanda (Busco empleo)</option>
+                </select>
+              </div>
+              <div class="mb-3">
                 <label for="inputTitulo" class="form-label">Título</label>
-                <input type="text" class="form-control" id="inputTitulo"
-                       placeholder="Ej: Desarrollador Frontend" required>
+                <input type="text" class="form-control" id="inputTitulo" placeholder="Ej: Desarrollador Frontend" required>
               </div>
               <div class="mb-3">
                 <label for="inputJornada" class="form-label">Jornada Laboral</label>
@@ -62,38 +60,24 @@
                   <option value="Parcial">Parcial</option>
                 </select>
               </div>
-              <div class="mb-3">
+              <div class="mb-3 d-none" id="contenedorInputSueldo">
                 <label for="inputSueldo" class="form-label">Sueldo (€/año)</label>
-                <input type="number" class="form-control" id="inputSueldo"
-                       placeholder="Ej: 22000" min="0" required>
-              </div>
-              <div class="mb-3">
-                <label for="inputTipo" class="form-label">Tipo</label>
-                <select class="form-select" id="inputTipo" required>
-                  <option value="">-- Selecciona --</option>
-                  <option value="oferta">Oferta</option>
-                  <option value="demanda">Demanda</option>
-                </select>
+                <input type="number" class="form-control" id="inputSueldo" placeholder="Ej: 22000">
               </div>
               <div class="mb-3">
                 <label for="inputDescripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="inputDescripcion" rows="3"
-                          placeholder="Describe el puesto o perfil..." required></textarea>
+                <textarea class="form-control" id="inputDescripcion" rows="3" placeholder="Descripción..." required></textarea>
               </div>
-              <div class="d-grid">
-                <button type="submit" class="btn-alta">DAR DE ALTA</button>
-              </div>
+              <div class="d-grid"><button type="submit" class="btn-alta">DAR DE ALTA</button></div>
             </form>
             <div id="mensajeEmpleos" class="alert mt-3 d-none" role="alert"></div>
           </div>
         </div>
       </div>
-
       <div class="col-md-8">
         <div id="tablaOfertas" class="mb-4"></div>
         <div id="tablaDemandas"></div>
       </div>
-
     </div>
   </main>
 

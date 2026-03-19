@@ -15,56 +15,41 @@
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="index.html">KONECTO</a>
-      <button class="navbar-toggler" type="button"
-              data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="login.html">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="empleos.html">Ofertas y Demandas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="usuarios.html">Altas Usuarios</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link active" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="empleos.html">Ofertas y Demandas</a></li>
+          <li class="nav-item"><a class="nav-link" href="usuarios.html">Altas Usuarios</a></li>
         </ul>
-        <span class="navbar-text" id="usuarioLogueado">No conectado</span>
+        <span class="navbar-text">
+          <span id="usuarioLogueado">No conectado</span>
+          <a href="#" id="btnCerrarSesion" class="ms-2 text-warning fw-bold text-decoration-none d-none">(Salir)</a>
+        </span>
       </div>
     </div>
   </nav>
 
   <main class="container mt-5">
     <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-5">
+      <div class="col-md-6 col-lg-4">
         <div class="login-card">
-          <div class="login-header">
-            <h2>INICIAR SESIÓN</h2>
-          </div>
+          <div class="login-header"><h2>INICIAR SESIÓN</h2></div>
           <div class="login-body">
-            <form id="formLogin" novalidate>
+            <form id="formLogin">
               <div class="login-campos">
                 <div class="mb-3">
-                  <label for="inputEmail" class="form-label">Correo Electrónico</label>
-                  <input type="email" class="form-control" id="inputEmail"
-                         placeholder="tu@email.com" required>
+                  <label class="form-label">Correo Electrónico</label>
+                  <input type="email" class="form-control" id="inputEmail" required>
                 </div>
                 <div class="mb-3">
-                  <label for="inputPassword" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="inputPassword"
-                         placeholder="Tu contraseña" required>
+                  <label class="form-label">Contraseña</label>
+                  <input type="password" class="form-control" id="inputPassword" required>
                 </div>
               </div>
-              <div class="d-grid mt-3">
-                <button type="submit" class="btn-login">INICIAR SESIÓN</button>
-              </div>
+              <button type="submit" class="btn-login mt-3">ENTRAR</button>
             </form>
-            <div id="mensajeLogin" class="alert mt-3 d-none" role="alert"></div>
+            <div id="mensajeLogin" class="alert mt-3 d-none"></div>
           </div>
         </div>
       </div>
