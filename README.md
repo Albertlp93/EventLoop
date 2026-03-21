@@ -49,7 +49,11 @@ konecto/
 
 ## Equipo
 
-Proyecto grupal desarrollado para la asignatura FP.450 — Desarrollo full stack de soluciones web con JavaScript y servicios web (UOC).
+FP.450 — Desarrollo full stack de soluciones web con JavaScript y servicios web.
+
+Nadir Neme Rodríguez
+Ana Patricia Calabuig Ruzafa 
+Albert Lopez Pajuelo
 
 ## Licencia
 
