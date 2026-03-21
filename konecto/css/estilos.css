@@ -1,11 +1,6 @@
 
 /* --- VARIABLES CSS (Custom Properties) ---
-   Definimos los colores en un solo sitio para poder cambiarlos
-   fácilmente. Si mañana el cliente pide otro tono de azul,
-   cambiamos UNA línea en vez de buscar por todo el archivo.
-   
-   :root es el elemento raíz del documento (<html>).
-   Las variables se usan con: var(--nombre-variable) */
+  :root es el elemento maestro del documento (<html>).*/
 :root {
   --azul-marino: #1a3a6b;
   --amarillo:    #e8d84b;
@@ -16,10 +11,7 @@
 }
 
 /* --- RESET BÁSICO Y TIPOGRAFÍA ---
-   Aplicamos Nunito a todo el body.
-   ¿Por qué en el body y no en cada elemento?
-   Porque la tipografía se HEREDA: todos los hijos del body
-   la reciben automáticamente (salvo que la sobreescriban). */
+   Aplicamos Nunito a todo el body. */
 body {
   font-family: 'Nunito', sans-serif;
   background-color: var(--fondo-claro);
@@ -40,17 +32,10 @@ body {
 .navbar-brand {
   font-size: 1.4rem;
   color: var(--blanco) !important;
-  /* ¿Por qué !important aquí?
-     Porque Bootstrap aplica sus propios colores al .navbar-brand
-     con especificidad alta. El !important garantiza que nuestro
-     blanco gane. Usamos !important con moderación, solo cuando
-     necesitamos sobreescribir Bootstrap. */
 }
 
 /* --- ENLACES DEL NAVBAR (estado normal) ---
-   Color blanco semitransparente para los tabs NO activos.
-   Esto crea un contraste visual: el activo resalta, los demás
-   están "apagados" pero legibles. */
+   Color blanco semitransparente para los tabs NO activos. */
 .navbar-nav .nav-link {
   color: rgba(255, 255, 255, 0.85) !important;
   font-weight: 600;
@@ -62,8 +47,7 @@ body {
 }
 
 /* --- ENLACE ACTIVO (tab amarillo) ---
-   El enlace con clase "active" recibe el fondo amarillo
-   y texto oscuro para máximo contraste. */
+   El enlace con clase "active" recibe el fondo amarillo */
 .navbar-nav .nav-link.active {
   background-color: var(--amarillo);
   color: var(--texto-oscuro) !important;
@@ -87,9 +71,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* --- TÍTULOS PRINCIPALES ---
-   Los h1 de cada página llevan el azul marino para
-   mantener coherencia con el navbar. */
+/* --- TÍTULOS PRINCIPALES --- */
 h1 {
   color: var(--azul-marino);
   font-weight: 700;
@@ -98,24 +80,20 @@ h1 {
 
 /* --- HERO / CABECERA DE BIENVENIDA ---
    Fondo azul marino con texto blanco.
-   border-radius: esquinas redondeadas para un look más moderno.
-   El padding (p-3 de Bootstrap) ya da espacio interior. */
+   border-radius: esquinas redondeadas para un look más moderno. */
 .hero-section {
   background-color: var(--azul-marino);
   color: var(--blanco);
   border-radius: 0.75rem;
 }
 
-/* El h1 dentro del hero debe ser blanco, no azul marino.
-   Sobreescribimos la regla general de h1 solo dentro del hero. */
+/* Sobreescribimos la regla general de h1 solo dentro del hero. */
 .hero-section h1 {
   color: var(--blanco);
 }
 
 /* --- LOGO PLACEHOLDER ---
-   Círculo con las iniciales de KONECTO.
-   ¿Por qué un círculo? Es el estándar visual para avatares
-   y logos en interfaces modernas (piensa en Gmail, Slack...).
+   Círculo con las iniciales de KONECTO 
    Lo creamos con: ancho = alto + border-radius 50%. */
 .logo-placeholder {
   width: 70px;
@@ -126,16 +104,9 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* ¿Por qué flex + align/justify center?
-     Es la forma más limpia de centrar contenido VERTICAL y
-     HORIZONTALMENTE dentro de un contenedor. Antes se usaban
-     hacks con line-height o transform. Flex lo resuelve en 3 líneas. */
   font-weight: 700;
   font-size: 1.5rem;
-  margin: 0 auto;
-  /* margin: 0 auto centra el elemento horizontalmente
-     dentro de su columna (text-center del padre no basta
-     para un bloque con ancho fijo). */
+  margin: 0 auto; /* margin: 0 auto centra el elemento horizontalmente dentro de su columna  */
 }
 
 /* --- AVATAR PLACEHOLDER ---
@@ -169,8 +140,7 @@ h1 {
 }
 
 /* --- HEADER DE CADA COLUMNA ---
-   Fondo azul marino, texto blanco, centrado.
-   Cumple con el mockup: "OFERTAS LABORALES" / "DEMANDAS LABORALES". */
+   Fondo azul marino, texto blanco, centrado.*/
 .columna-header {
   background-color: var(--azul-marino);
   color: var(--blanco);
@@ -180,8 +150,6 @@ h1 {
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  /* letter-spacing: separa ligeramente las letras.
-     Da un efecto de "título destacado" / banner. */
 }
 
 /* --- CUERPO DE CADA COLUMNA (fondo amarillo) ---
@@ -242,8 +210,7 @@ h1 {
 
 /* --- TARJETA EXTERIOR DEL LOGIN ---
    Borde azul marino grueso + esquinas redondeadas.
-   overflow: hidden para que el header azul respete el border-radius
-   (mismo truco que usamos en las columnas del dashboard). */
+   overflow: hidden para que el header azul respete el border-radius */
 .login-card {
   border: 3px solid var(--azul-marino);
   border-radius: 1rem;
@@ -253,8 +220,7 @@ h1 {
 
 /* --- HEADER AZUL DEL LOGIN ---
    Barra superior con el título "INICIAR SESIÓN".
-   Mismo patrón visual que los headers de las columnas del dashboard:
-   fondo azul, texto blanco, centrado. Coherencia visual. */
+   Mismo patrón visual que los headers de las columnas del dashboard */
 .login-header {
   background-color: var(--azul-marino);
   color: var(--blanco);
@@ -277,10 +243,7 @@ h1 {
   padding: 1.5rem;
 }
 
-/* --- BLOQUE AZUL INTERIOR (contiene los inputs) ---
-   Según el mockup, los campos email y contraseña van dentro
-   de un rectángulo azul marino con esquinas redondeadas.
-   El texto (labels) es blanco sobre fondo azul. */
+/* --- BLOQUE AZUL INTERIOR (contiene los inputs) --- */
 .login-campos {
   background-color: var(--azul-marino);
   border-radius: 0.75rem;
@@ -296,12 +259,8 @@ h1 {
 
 /* --- BOTÓN DE LOGIN ---
    Estilo personalizado en vez de usar btn-primary de Bootstrap.
-   ¿Por qué? Porque queremos el azul marino exacto del mockup,
-   no el azul genérico de Bootstrap (#0d6efd).
    
-   cursor: pointer → cambia el cursor a "manita" al pasar por encima.
-   Los <button> ya lo tienen por defecto, pero es buena práctica
-   explicitarlo en clases personalizadas. */
+   cursor: pointer → cambia el cursor a "manita" al pasar por encima */
 .btn-login {
   background-color: var(--azul-marino);
   color: var(--blanco);
@@ -322,9 +281,6 @@ h1 {
 /* Hover: oscurecemos ligeramente el fondo para dar feedback visual. */
 .btn-login:hover {
   background-color: #142e55;
-  /* #142e55 es un azul marino más oscuro que #1a3a6b.
-     No usamos la variable porque es un tono derivado,
-     no un color de la paleta principal. */
 }
 
 /* Active (al hacer clic): leve reducción de tamaño → efecto "presión".
@@ -389,8 +345,7 @@ h1 {
 }
 
 .btn-alta:hover {
-  background-color: #d4c540;
-  /* Amarillo ligeramente más oscuro para hover */
+  background-color: #d4c540; /* Amarillo ligeramente más oscuro para hover */
 }
 
 .btn-alta:active {
@@ -399,7 +354,7 @@ h1 {
 
 /* --- CONTENEDOR DE CADA TABLA (ofertas / demandas) ---
    Reutilizamos el patrón visual de las columnas del dashboard:
-   header azul + body amarillo. Coherencia en toda la app. */
+   header azul + body amarillo.*/
 .tabla-empleos-wrapper {
   border-radius: 0.75rem;
   overflow: hidden;
@@ -422,8 +377,7 @@ h1 {
 }
 
 /* --- TABLA DENTRO DEL BODY AMARILLO ---
-   Bootstrap ya estiliza las tablas con "table".
-   Añadimos fondo blanco a las celdas para legibilidad
+    Añadimos fondo blanco a las celdas para legibilidad
    sobre el fondo amarillo. */
 .tabla-empleos-body .table {
   margin-bottom: 0;
@@ -452,8 +406,6 @@ h1 {
 /* --- BOTONES DE ACCIÓN EN LA TABLA --- */
 .btn-eliminar {
   background-color: #dc3545;
-  /* Rojo Bootstrap (danger). No definimos variable porque no es
-     un color de la paleta KONECTO, es un estándar de "peligro". */
   color: var(--blanco);
   border: none;
   border-radius: 0.375rem;

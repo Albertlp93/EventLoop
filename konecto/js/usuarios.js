@@ -1,6 +1,6 @@
 import { usuarios } from './datos.js';
 
-// --- 1. LÓGICA DE SESIÓN (NAVBAR) ---
+//LÓGICA DE SESIÓN (NAVBAR) ---
 function gestionarNavbarSesion() {
   const emailLogueado = sessionStorage.getItem('usuarioLogueado');
   const txtUsuario = document.getElementById('usuarioLogueado');
@@ -17,7 +17,7 @@ function gestionarNavbarSesion() {
   }
 }
 
-// --- 2. UTILIDADES DE MENSAJES ---
+//UTILIDADES DE MENSAJES ---
 function mostrarMensaje(texto, tipo) {
   const div = document.getElementById('mensajeUsuarios');
   div.className = `alert mt-3 alert-${tipo}`;
@@ -26,7 +26,7 @@ function mostrarMensaje(texto, tipo) {
   setTimeout(() => div.classList.add('d-none'), 3000);
 }
 
-// --- 3. RENDERIZADO DE LA TABLA ---
+//RENDERIZADO DE LA TABLA ---
 function renderTablaUsuarios() {
   const contenedor = document.getElementById('tablaUsuarios');
 
@@ -42,7 +42,7 @@ function renderTablaUsuarios() {
   }
 
   const filas = usuarios.map((u, i) => {
-    // Convertimos la contraseña en puntos (mask) para que sea profesional
+    // Convertimos la contraseña en puntos (mask)
     const passMask = "•".repeat(u.password.length);
     
     return `
@@ -75,7 +75,7 @@ function renderTablaUsuarios() {
     </div>`;
 }
 
-// --- 4. ACCIONES: ALTA Y BAJA ---
+//ACCIONES: ALTA Y BAJA ---
 
 function darDeAlta(evento) {
   evento.preventDefault();
@@ -84,13 +84,13 @@ function darDeAlta(evento) {
   const email = document.getElementById('inputEmail').value.trim();
   const password = document.getElementById('inputPassword').value;
 
-  // Validaciones básicas
+  //Validaciones básicas
   if (!nombre || !email || !password) {
     mostrarMensaje("Todos los campos son obligatorios.", "danger");
     return;
   }
 
-  // Validación de email duplicado
+  //Validación de email duplicado
   const existe = usuarios.find(u => u.email === email);
   if (existe) {
     mostrarMensaje("Este email ya está registrado.", "danger");
@@ -123,7 +123,7 @@ function darDeBaja(indice) {
   }
 }
 
-// --- 5. INICIALIZACIÓN ---
+//INICIALIZACIÓN ---
 document.addEventListener('DOMContentLoaded', () => {
   gestionarNavbarSesion();
   renderTablaUsuarios();
